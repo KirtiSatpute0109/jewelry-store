@@ -1,0 +1,58 @@
+{% extends "base1.html" %}
+{% load static %}
+
+{% block main %}
+<section class="shop_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>Latest Products</h2>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <form method="GET" action="">
+                <input type="text" name="search" placeholder="Search for products..." class="form-control">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="row">
+            {% for j in products %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="box">
+                    <a href="{% url 'productdetail' j.id %}">
+                        <div class="img-box">
+                            <img src="{{ j.image.url }}" alt="{{ j.name }}">
+                        </div>
+                        <div class="detail-box">
+                            <h6>{{ j.name }}</h6>
+                            <h6>Price: <span>${{ j.price }}</span></h6>
+                            <p>{{ j.desc|truncatewords:10 }}</p>
+                            <p><strong>Brand:</strong> {{ j.brand }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="no-products">No products found.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if products.has_previous %}
+                <a href="?page=1" class="btn btn-secondary">First</a>
+                <a href="?page={{ products.previous_page_number }}" class="btn btn-secondary">Previous</a>
+            {% endif %}
+
+            <span class="current-page">Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}" class="btn btn-secondary">Next</a>
+                <a href="?page={{ products.paginator.num_pages }}" class="btn btn-secondary">Last</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

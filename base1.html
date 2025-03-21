@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <title>Healet - Jewelry Store</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+</head>
+
+<body>
+
+  <!-- 🔹 Header Section -->
+  <header class="header_section">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <span>Healet</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'blog' %}">Blog</a></li>
+          
+               
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <span style="color: blue;" class="nav-link">Welcome, <strong>{{ user.username }}</strong>!</span>
+              </li>
+              <li class="nav-item">
+                <li class="nav-item">
+                  <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger text-white px-3">Logout</button>
+                  </form>
+                </li>
+                
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white px-3" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn btn-success text-white px-3" href="{% url 'register' %}">Register</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    {% block slider %}{% endblock slider %}
+  </header>
+  <!-- 🔹 End Header Section -->
+
+  <!-- 🔹 Main Content Block -->
+  <main>
+    {% block main %}{% endblock main %}
+  </main>
+
+  <!-- 🔹 Footer Section -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">Healet Jewelry</a>
+      </p>
+    </div>
+  </footer>
+  <!-- 🔹 End Footer Section -->
+
+  <!-- jQuery -->
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+
+  <script>
+    document.getElementById("displayYear").innerText = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
